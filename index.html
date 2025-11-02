@@ -2,95 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VerifyGo® — Safety Simplified</title>
+
+  <!-- Prevent Reader from treating this as an article -->
+  <meta property="og:type" content="website">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
-    :root{
-      --bg-deep:#0f1214;
-      --bg-panel1:#1c232a;
-      --text:#e6e6e6;
-      --muted:#9aa3aa;
-      --accent:#ff9e55;
-      --accent-deep:#d36b2d;
-      --glow:rgba(211,107,45,.33);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      min-height:100vh;
-      display:flex;align-items:center;justify-content:center;
-      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;
-      color:var(--text);
-      background:radial-gradient(circle at 25% 10%,#1a1d21 0%,var(--bg-deep) 55%,#0b0e10 100%);
-    }
-    .plaque{
-      width:92%;max-width:660px;padding:40px;
-      background:linear-gradient(180deg,var(--bg-panel1) 0%,#11161b 100%);
-      border-radius:18px;
-      box-shadow:0 60px 90px rgba(0,0,0,.75),0 40px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.08),inset 0 -3px 0 rgba(0,0,0,.6),0 0 60px var(--glow);
-    }
-    h1{margin-bottom:10px;line-height:1.1}
-    .lead{color:#cfd6db;margin-bottom:18px}
-    .tags{color:var(--accent);font-weight:700;letter-spacing:1px;margin:8px 0 14px}
-    form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
-    input[type=email]{
-      padding:12px 14px;border:none;border-radius:8px;outline:none;width:280px;font-size:1rem;
-      background:#0f1418;color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    button{
-      background:linear-gradient(180deg,var(--accent) 0%,var(--accent-deep) 100%);
-      color:#fff;border:none;padding:12px 16px;border-radius:8px;cursor:pointer;font-weight:600;
-      box-shadow:0 14px 20px rgba(211,107,45,.45),inset 0 2px 0 rgba(255,255,255,.25),inset 0 -2px 0 rgba(0,0,0,.38);
-    }
-    button:disabled{opacity:.6;cursor:not-allowed}
-    footer{margin-top:16px;font-size:.88rem;color:var(--muted);text-align:center}
-    #toast{
-      position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-      background:#1f262c;color:#fff;padding:10px 14px;border-radius:8px;display:none;
-      box-shadow:0 8px 18px rgba(0,0,0,.45);
-    }
-    .pill{
-      display:inline-flex;gap:8px;align-items:center;padding:10px 12px;border-radius:12px;background:#0f1418;color:#cfd6db;margin:10px 0;
-    }
-    .pill svg{opacity:.85}
+    /* Minimal fallback while JS builds the UI */
+    html,body{height:100%}
+    body{margin:0;display:flex;align-items:center;justify-content:center;background:#0f1214;color:#cfd6db;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif}
+    .boot {opacity:.7;font-size:14px}
+    .hidden {display:none}
   </style>
 </head>
 <body>
-  <div class="plaque">
-    <h1>Safety Simplified. Productivity Amplified.</h1>
-    <div class="pill">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#cfd6db" stroke-width="2" stroke-linecap="round"/></svg>
-      Summary — VerifyGo® is a digital platform that simplifies safety and amplifies productivity on jobsites.
-    </div>
-    <p class="lead">VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.</p>
-    <div class="tags">BILINGUAL • FIELD-READY • 100% DIGITAL</div>
-    <form id="notify-form" autocomplete="off">
-      <input id="email" type="email" name="email" placeholder="Your Email" required />
-      <button id="notify-btn" type="submit">Notify Me When Live</button>
-    </form>
-    <footer>© 2025 VerifyGo® • info@verifygo.pro</footer>
-  </div>
+  <div class="boot">Loading VerifyGo®…</div>
 
-  <div id="toast"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-  <script type="module" src="./supabaseClient.js"></script>
   <script type="module">
-    import { supabase } from './supabaseClient.js';
-    const form=document.getElementById('notify-form');
-    const emailInput=document.getElementById('email');
-    const btn=document.getElementById('notify-btn');
-    const toast=document.getElementById('toast');
-    function showToast(msg){toast.textContent=msg;toast.style.display='block';setTimeout(()=>toast.style.display='none',2200);}
-    form.addEventListener('submit',async(e)=>{
+    // ---- Build styles dynamically so Safari Reader can't strip them ----
+    const css = `
+      body{background:radial-gradient(circle at center,#1a1d21 0%,#0f1214 100%);color:#e6e6e6}
+      .plaque{background:linear-gradient(180deg,#1c232a 0%,#11161b 100%);
+        box-shadow:0 60px 90px rgba(0,0,0,.75),0 40px 60px rgba(0,0,0,.55),
+                   inset 0 2px 0 rgba(255,255,255,.1),inset 0 -3px 0 rgba(0,0,0,.65),
+                   0 0 60px rgba(211,107,45,.33);
+        border-radius:18px;padding:40px;max-width:560px;width:92%}
+      h1{color:#fff;margin:0 0 10px;font-size:32px;line-height:1.1}
+      .lead{color:#cfd6db;margin:0 0 18px}
+      .tags{color:#ff9e55;font-weight:700;letter-spacing:1px;margin:8px 0 14px}
+      form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+      input[type=email]{padding:10px 12px;border:none;border-radius:8px;outline:none;width:260px;font-size:1rem}
+      button{background:linear-gradient(180deg,#ff9e55 0%,#d36b2d 100%);
+        box-shadow:0 14px 20px rgba(211,107,45,.6),inset 0 2px 0 rgba(255,255,255,.32),inset 0 -2px 0 rgba(0,0,0,.42);
+        color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
+      #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+        background:#1f262c;color:#fff;padding:10px 14px;border-radius:8px;display:none}
+      footer{margin-top:16px;font-size:.85rem;color:#9aa3aa}
+    `;
+    const styleEl = document.createElement('style');
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
+
+    // ---- Build markup dynamically ----
+    const html = `
+      <div class="plaque">
+        <h1>Safety Simplified. Productivity Amplified.</h1>
+        <p class="lead">VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.</p>
+        <div class="tags">BILINGUAL • FIELD-READY • 100% DIGITAL</div>
+
+        <form id="notify-form">
+          <input id="email" type="email" name="email" placeholder="Your Email" required />
+          <button id="notify-btn" type="submit">Notify Me When Live</button>
+        </form>
+
+        <footer>© 2025 VerifyGo® • info@verifygo.pro</footer>
+      </div>
+      <div id="toast"></div>
+    `;
+    document.body.innerHTML = html;
+
+    // ---- Supabase (direct client) ----
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    // Your project (from earlier messages)
+    const SUPABASE_URL = 'https://lhmddlywxwbahkdctrb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxobWRkbHl3eHdiYWtoZGtjdHJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMzUyOTYsImV4cCI6MjA3NzYxMTI5Nn0.h3MOi0Znyrz7x3mgBslsVq9HqRZVpTx-4xTDJtnuE1A';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // UI bits
+    const form = document.getElementById('notify-form');
+    const emailInput = document.getElementById('email');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(()=> toast.style.display = 'none', 2200);
+    }
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email=emailInput.value.trim();
-      if(!email)return;
-      btn.disabled=true;
-      const {error}=await supabase.from('leads').insert([{email,source:'website'}]);
-      if(error){console.error(error);showToast('Save failed. Try again.');}
-      else{emailInput.value='';showToast('Got it — you’re on the list!');}
-      btn.disabled=false;
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      // Ensure table 'leads' exists with columns: email(text), source(text), created_at(timestamptz default now())
+      const { error } = await supabase.from('leads').insert([{ email, source: 'website' }]);
+
+      if (error) {
+        console.error(error);
+        showToast('Save failed. Try again.');
+      } else {
+        emailInput.value = '';
+        showToast('Got it — you’re on the list!');
+      }
     });
   </script>
+  <noscript>
+    <!-- If JS is disabled, tell the user -->
+    <div style="padding:20px;color:#fff">Please enable JavaScript to view this site.</div>
+  </noscript>
 </body>
 </html>
