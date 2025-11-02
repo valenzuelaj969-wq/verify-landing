@@ -1,19 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>VerifyGo® — Safety Simplified</title>
-  <style>
-    body {
-      background-color: #0d1117;
-      color: #f97316;
-      font-family: sans-serif;
-      text-align: center;
-      padding-top: 100px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VerifyGo® — Safety Simplified</title>
+  <style>
+    :root{--bg1:#0f1214;--bg2:#1a1d21;--steel:#1c232a;--text:#e6e6e6;--muted:#9aa3aa;--brand1:#ff9e55;--brand2:#d36b2d}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(circle at 50% 20%,var(--bg2) 0%,var(--bg1) 60%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;display:flex;align-items:center;justify-content:center}
+    .plaque{background:linear-gradient(180deg,#1c232a 0%,#11161b 100%);border-radius:18px;box-shadow:
+      0 60px 90px rgba(0,0,0,.75),
+      0 40px 60px rgba(0,0,0,.55),
+      inset 0 2px 0 rgba(255,255,255,.08),
+      inset 0 -3px 0 rgba(0,0,0,.6),
+      0 0 60px rgba(211,107,45,.25);
+      padding:36px;max-width:560px;width:92%}
+    h1{margin:0 0 10px;font-size:28px}
+    .lead{margin:0 0 16px;color:#cfd6db;line-height:1.45}
+    .tags{margin:8px 0 18px;color:var(--brand1);font-weight:700;letter-spacing:.9px}
+    form{display:flex;gap:10px;flex-wrap:wrap}
+    input[type=email]{flex:1;min-width:220px;padding:10px 12px;border-radius:8px;border:none;outline:none;font-size:1rem}
+    button{background:linear-gradient(180deg,var(--brand1) 0%,var(--brand2) 100%);
+      color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;
+      box-shadow:0 14px 20px rgba(211,107,45,.55),inset 0 2px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.42)}
+    footer{margin-top:14px;font-size:.85rem;color:var(--muted)}
+    #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1f262c;color:#fff;padding:10px 14px;border-radius:8px;display:none}
+  </style>
 </head>
 <body>
-  <h1>VerifyGo® Landing Live</h1>
-  <p>Connection test successful 🚀</p>
+  <div class="plaque">
+    <h1>Safety Simplified. Productivity Amplified.</h1>
+    <p class="lead">VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.</p>
+    <div class="tags">BILINGUAL • FIELD-READY • 100% DIGITAL</div>
+
+    <form id="notify-form">
+      <input id="email" name="email" type="email" placeholder="Your Email" required />
+      <button id="notify-btn" type="submit">Notify Me When Live</button>
+    </form>
+
+    <footer>© 2025 VerifyGo® • info@verifygo.pro</footer>
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- Supabase client (ESM) -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://lhmddlyywxbakhdkctrb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxobWRkbHl3eHdiYWtoZGtjdHJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMzUyOTYsImV4cCI6MjA3NzYxMTI5Nn0.h3MOi0Znyrz7x3mgBslsVq9HqRZVpTx-4xTDJtnuE1A';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('notify-form');
+    const emailInput = document.getElementById('email');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(()=> toast.style.display = 'none', 2200);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      if (!email) return;
+      const { error } = await supabase.from('leads').insert([{ email, source: 'website' }]);
+      if (error) {
+        console.error(error);
+        showToast('Save failed. Try again.');
+      } else {
+        emailInput.value = '';
+        showToast('Got it — you’re on the list!');
+      }
+    });
+  </script>
 </body>
 </html>
