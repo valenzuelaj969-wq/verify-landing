@@ -1,63 +1,173 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>VerifyGo® — Safety Simplified</title>
-<meta name="description" content="VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.">
-<style>
-:root{--bg:#0d1117;--panel:#111827;--text:#e6edf3;--muted:#9aa4b2;--accent:#f97316;--ring:rgba(249,115,22,.35)}
-*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:
-radial-gradient(1200px 700px at -10% -10%, #111827 0%, #0d1117 40%, #0b0f14 100%);
-color:var(--text);font:400 16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-.container{max-width:900px;margin:0 auto;padding:36px}
-.hero{border:1px solid rgba(255,255,255,.08);border-radius:20px;background:
-linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-box-shadow:0 16px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);padding:38px}
-h1{margin:0 0 14px;font-weight:900;font-size:clamp(28px,4.8vw,46px);line-height:1.08}
-.summary{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;
-padding:14px 16px;margin:12px 0 20px}
-.kicker{letter-spacing:.06em;color:var(--muted);font-weight:700;margin:14px 0 18px}
-form{display:flex;gap:10px;flex-wrap:wrap}
-input[type=email]{flex:1 1 260px;min-width:240px;background:#0f1620;color:var(--text);
-border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px}
-input::placeholder{color:#8b95a3}
-button{background:linear-gradient(180deg,#ff8a3c,#f97316);color:#0a0e13;font-weight:800;
-border:0;border-radius:12px;padding:12px 16px;box-shadow:0 6px 18px var(--ring);cursor:pointer}
-.toast{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;font-weight:600;
-background:#0e1a12;border:1px solid rgba(16,185,129,.35);color:#a7f3d0}
-.toast.err{background:#1a1010;border-color:rgba(239,68,68,.35);color:#fecaca}
-footer{margin-top:18px;color:var(--muted);font-size:14px}
-a{color:var(--accent);text-decoration:none}
-.badge{display:inline-flex;gap:6px;align-items:center;background:#10161f;border:1px solid rgba(255,255,255,.08);
-border-radius:999px;padding:6px 10px;font-size:12px;color:#cfd6df;margin-bottom:10px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(249,115,22,.12)}
-</style></head><body>
-<div class="container">
-  <div class="hero">
-    <div class="badge"><span class="dot"></span> Ready to work? Verify and go!</div>
-    <h1>Safety Simplified. Productivity Amplified.</h1>
-    <div class="summary"><strong>Summary —</strong> VerifyGo® is a digital platform that simplifies safety and amplifies productivity on jobsites.</div>
-    <p>VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.</p>
-    <p class="kicker">BILINGUAL • FIELD-READY • 100% DIGITAL</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyGo® — Safety Simplified</title>
+  <meta name="description" content="VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips." />
+  <link rel="icon" href="/favicon.ico" />
 
-    <!-- Uses your existing Formspree endpoint -->
-    <form id="lead" action="https://formspree.io/f/xrboorge" method="POST">
-      <input type="email" name="email" id="email" placeholder="Your Email" required/>
-      <button type="submit">Notify Me When Live</button>
-      <input type="hidden" name="source" value="verifygo-landing"/>
-    </form>
-    <div id="ok"   class="toast">Thanks — you’re on the list.</div>
-    <div id="err"  class="toast err">That didn’t go through. Try again?</div>
+  <style>
+    :root{
+      /* Brand colors */
+      --accent:#f97316;          /* VerifyGo orange */
+      --bg:#0e1924;              /* deep steel blue-gray */
+      --panel:#141f2b;           /* panel steel blue-gray */
+      --text:#ecf0f3;            /* light text */
+      --muted:#9fb1c3;           /* muted steel */
+      --ring:rgba(249,115,22,.35);
+    }
 
-    <footer>© 2025 VerifyGo® • <a href="mailto:info@verifygo.pro">info@verifygo.pro</a></footer>
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at -10% -10%, #141f2b 0%, #0e1924 45%, #0c1722 100%);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      max-width:1000px; margin:0 auto; padding:42px 20px 72px;
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:.5ch;
+      font-size:.85rem; color:var(--muted);
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+      padding:8px 12px; border-radius:999px; letter-spacing:.2px;
+      box-shadow:0 1px 0 rgba(255,255,255,.05) inset;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(249,115,22,.15)}
+
+    h1{
+      margin:18px 0 18px;
+      font-weight:900; line-height:1.05;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing:.2px;
+      text-shadow: 0 2px 18px rgba(0,0,0,.35);
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:22px 20px;
+      box-shadow:
+        0 10px 40px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.02) inset;
+    }
+    .panel p{margin:0;color:var(--text)}
+    .muted{color:var(--muted)}
+
+    .grid{display:grid; gap:20px; margin-top:22px}
+    @media (min-width:780px){ .grid{grid-template-columns:1fr auto} }
+
+    form{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    input[type=email]{
+      flex:1 1 280px;
+      background:#101b27;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;
+      padding:14px 14px;
+      outline:none;
+      transition:.18s border, .18s box-shadow;
+    }
+    input[type=email]::placeholder{color:#8aa0b4}
+    input[type=email]:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 6px var(--ring);
+    }
+
+    button{
+      appearance:none; cursor:pointer;
+      background:linear-gradient(180deg,#ffa25e 0%, #f97316 60%, #e55d08 100%);
+      color:#241306; font-weight:700; letter-spacing:.3px;
+      border:0; border-radius:12px; padding:14px 18px;
+      box-shadow:0 8px 22px rgba(249,115,22,.35), inset 0 1px 0 rgba(255,255,255,.35);
+      transition:transform .06s ease, filter .2s ease;
+      white-space:nowrap;
+    }
+    button:hover{filter:saturate(1.05) brightness(1.02)}
+    button:active{transform:translateY(1px)}
+
+    .foot{margin-top:26px; color:var(--muted); font-size:.95rem}
+    .success{color:#8ff0a4}
+    .error{color:#ffb3b3}
+    .hide{display:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="badge"><span class="dot"></span> Ready to work? Verify and go!</span>
+
+    <h1>Safety Simplified. Productivity<br/>Amplified.</h1>
+
+    <div class="panel" style="margin:18px 0 16px">
+      <p><strong>Summary —</strong> VerifyGo® is a digital platform that simplifies safety and amplifies productivity on jobsites.</p>
+    </div>
+
+    <p class="muted" style="max-width:860px">
+      VerifyGo® keeps your jobsite ready to work—every inspection, permit, and report at your fingertips.
+    </p>
+
+    <div class="grid">
+      <div class="muted"><strong style="color:var(--text)">BILINGUAL • FIELD-READY • 100% DIGITAL</strong></div>
+
+      <!-- Lead capture -->
+      <form id="leadForm" novalidate>
+        <input id="email" type="email" name="email" placeholder="Your Email" aria-label="Email" required />
+        <button type="submit">Notify Me When Live</button>
+      </form>
+    </div>
+
+    <div id="status" class="foot hide"></div>
+
+    <div class="foot">© 2025 VerifyGo® • <a href="mailto:info@verifygo.pro" style="color:var(--text);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.25)">info@verifygo.pro</a></div>
   </div>
-</div>
-<script>
-  const form=document.getElementById('lead'), ok=document.getElementById('ok'), err=document.getElementById('err');
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault(); ok.style.display=err.style.display='none';
-    try{
-      const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
-      if(res.ok){ ok.style.display='block'; form.reset(); } else { err.style.display='block'; }
-    }catch{ err.style.display='block'; }
-  });
-</script>
-</body></html>
+
+  <script>
+    // Simple Formspree submit (no page reload)
+    const form = document.getElementById('leadForm');
+    const email = document.getElementById('email');
+    const statusEl = document.getElementById('status');
+
+    function showStatus(msg, ok){
+      statusEl.className = 'foot ' + (ok ? 'success' : 'error');
+      statusEl.textContent = msg;
+      statusEl.classList.remove('hide');
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const value = (email.value || '').trim();
+      if(!value){ showStatus('Please enter a valid email.', false); return; }
+
+      try{
+        const res = await fetch('https://formspree.io/f/xrboorge', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: value })
+        });
+
+        if(res.ok){
+          email.value = '';
+          showStatus('Thanks — you’re on the list.', true);
+        } else {
+          // Attempt to read details, fall back to generic
+          let msg = 'Something went wrong. Please try again.';
+          try{ const data = await res.json(); if(data && data.error) msg = data.error; }catch(_){}
+          showStatus(msg, false);
+        }
+      }catch(err){
+        showStatus('Network error — please try again.', false);
+      }
+    });
+  </script>
+</body>
+</html>
